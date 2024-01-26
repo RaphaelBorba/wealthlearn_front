@@ -1,20 +1,20 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { z } from "zod";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
+import { createNewUser } from "@/services/Auth/authService";
+import { useToast } from "@/components/ui/use-toast";
 
 const formZodSchema = z.object({
     name: z.string().min(3),
@@ -26,13 +26,38 @@ type SignInType = z.infer<typeof formZodSchema>
 
 export default function SignUpPage() {
 
+    const {toast} = useToast()
     const form = useForm<SignInType>({
+        defaultValues:{
+            email:'',
+            name:'',
+            password:''
+        },
         resolver: zodResolver(formZodSchema)
     })
 
     const onSubmit = async (data: SignInType) => {
-        console.log(data);
+        
+        try {
 
+            const response = await createNewUser(data)
+
+            console.log(response);
+            
+            
+        } catch (error:any) {
+
+            console.log(error)
+            const message = error.response.data.message
+            toast({
+                title:"Uh oh! Something went wrong!",
+                description: Array.isArray(message) ? message[0] : message,
+                variant:"destructive"
+            })
+            
+        }
+        
+        
     }
 
     return (
@@ -117,21 +142,3 @@ export default function SignUpPage() {
 
     )
 }
-
-/* 
-
-                    <div>
-                        <Label htmlFor="name" >Name</Label>
-                        <Input className="outline-none" id="name" type="text" {...register("name")} />
-                    </div>
-                    <div>
-                        <Label htmlFor="name" >Email</Label>
-                        <Input className="outline-none" id="email" type="email" {...register("email")} />
-                    </div>
-                    <div>
-                        <Label htmlFor="name" >Password</Label>
-                        <Input className="outline-none" id="password" type="password" {...register("password")} />
-                    </div>
-                    <Button type="submit">Submit</Button>
-                </form>
-                 */

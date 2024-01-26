@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { Ubuntu } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 const ubuntu = Ubuntu({
-  weight:["300","400", "500","700"],
-  subsets:["latin"]
+  weight: ["300", "400", "500", "700"],
+  subsets: ["latin"]
 })
 
 export const metadata: Metadata = {
@@ -23,14 +24,15 @@ export default function RootLayout({
       <body className={ubuntu.className}
       >
         <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
         >
-        {children}
+          {children}
+          <Toaster />
         </ThemeProvider>
-        </body>
+      </body>
     </html>
   );
 }
