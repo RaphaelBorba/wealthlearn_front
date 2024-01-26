@@ -40,9 +40,11 @@ export default function SignUpPage() {
         
         try {
 
-            const response = await createNewUser(data)
+            await createNewUser(data)
 
-            console.log(response);
+            toast({
+                description:"Welcome aboard! Your account has been successfully created."
+            })
             
             
         } catch (error:any) {
