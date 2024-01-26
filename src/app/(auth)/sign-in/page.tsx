@@ -18,32 +18,25 @@ import AuthHeroSection from "@/components/shared/AuthHeroSection";
 import Link from "next/link";
 
 const formZodSchema = z.object({
-    name: z.string().min(3),
     email: z.string().email(),
     password: z.string().min(6)
 })
 
-type SignUpType = z.infer<typeof formZodSchema>
+type SignInType = z.infer<typeof formZodSchema>
 
 export default function SignUpPage() {
 
     const { toast } = useToast()
-    const form = useForm<SignUpType>({
+    const form = useForm<SignInType>({
         defaultValues: {
             email: '',
-            name: '',
             password: ''
         },
         resolver: zodResolver(formZodSchema)
     })
 
-    const onSubmit = async (data: SignUpType) => {
+    const onSubmit = async (data: SignInType) => {
         try {
-
-            await createNewUser(data)
-            toast({
-                description: "Bem-vindo a bordo! Sua conta foi criada com sucesso."
-            })
 
         } catch (error: any) {
 
@@ -62,25 +55,7 @@ export default function SignUpPage() {
                 <h1 className="text-center">LOGO</h1>
                 <Form {...form}>
                     <form className="flex flex-col gap-6" onSubmit={form.handleSubmit(onSubmit)}>
-                        {/* USERNAME */}
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Username</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="text"
-                                            className="outline-none"
-                                            placeholder="Username"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        {/* EMAIL */}
                         <FormField
                             control={form.control}
                             name="email"
@@ -99,6 +74,7 @@ export default function SignUpPage() {
                                 </FormItem>
                             )}
                         />
+                        {/* PASSWORD */}
                         <FormField
                             control={form.control}
                             name="password"
@@ -117,11 +93,11 @@ export default function SignUpPage() {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit">Registrar</Button>
+                        <Button type="submit">Login</Button>
                     </form>
                 </Form>
-                <Link href="/sign-in" >
-                    <h4 className="mt-4 text-center hover:underline transition">Já possuo conta, quero fazer login!</h4>
+                <Link href="/sign-up" >
+                    <h4 className="mt-4 text-center hover:underline transition">Pronto para começar? Crie sua conta!</h4>
                 </Link>
             </article>
         </main>

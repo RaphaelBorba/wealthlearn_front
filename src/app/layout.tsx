@@ -11,7 +11,7 @@ const ubuntu = Ubuntu({
 
 export const metadata: Metadata = {
   title: "WealthLearn",
-  description: "Platform where you can learn investments in practice!",
+  description: "Plataforma para aprender a investir na prática!",
 };
 
 export default function RootLayout({
