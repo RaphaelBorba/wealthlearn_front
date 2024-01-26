@@ -12,7 +12,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
-import { createNewUser } from "@/services/Auth/authService";
+import { createNewUser, login } from "@/services/Auth/authService";
 import { useToast } from "@/components/ui/use-toast";
 import AuthHeroSection from "@/components/shared/AuthHeroSection";
 import Link from "next/link";
@@ -38,8 +38,11 @@ export default function SignUpPage() {
     const onSubmit = async (data: SignInType) => {
         try {
 
-        } catch (error: any) {
+            const response = await login(data)
+            console.log(response)
 
+        } catch (error: any) {
+            console.log(error)
             const message = error.response.data.message
             toast({
                 title: "Ops! Algo deu errado!",
