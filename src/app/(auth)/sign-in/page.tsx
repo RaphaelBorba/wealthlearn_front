@@ -16,6 +16,8 @@ import { createNewUser, login } from "@/services/Auth/authService";
 import { useToast } from "@/components/ui/use-toast";
 import AuthHeroSection from "@/components/shared/AuthHeroSection";
 import Link from "next/link";
+import { validateJWTToken } from "@/lib/utils";
+import { userStore } from "@/stores/userStore";
 
 const formZodSchema = z.object({
     email: z.string().email(),
@@ -35,11 +37,15 @@ export default function SignUpPage() {
         resolver: zodResolver(formZodSchema)
     })
 
+    const {setUserData} = userStore()
     const onSubmit = async (data: SignInType) => {
         try {
 
             const response = await login(data)
-            console.log(response)
+            const token = response.data
+            const {access, id, name} = await validateJWTToken(token)
+            
+            setUserData({access, id, name, token})
 
         } catch (error: any) {
             console.log(error)
