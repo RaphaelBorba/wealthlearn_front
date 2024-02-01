@@ -12,12 +12,13 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
-import { createNewUser, login } from "@/services/Auth/authService";
+import { login } from "@/services/Auth/authService";
 import { useToast } from "@/components/ui/use-toast";
 import AuthHeroSection from "@/components/shared/AuthHeroSection";
 import Link from "next/link";
 import { validateJWTToken } from "@/lib/utils";
 import { userStore } from "@/stores/userStore";
+import { useRouter } from "next/navigation";
 
 const formZodSchema = z.object({
     email: z.string().email(),
@@ -28,6 +29,7 @@ type SignInType = z.infer<typeof formZodSchema>
 
 export default function SignUpPage() {
 
+    const router = useRouter()
     const { toast } = useToast()
     const form = useForm<SignInType>({
         defaultValues: {
@@ -44,8 +46,10 @@ export default function SignUpPage() {
             const response = await login(data)
             const token = response.data
             const {access, id, name} = await validateJWTToken(token)
-            
             setUserData({access, id, name, token})
+            router.push("/")
+
+
 
         } catch (error: any) {
             console.log(error)
