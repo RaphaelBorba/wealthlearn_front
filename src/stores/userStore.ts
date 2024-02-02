@@ -5,7 +5,7 @@ type UserStore = {
     setUserData: (data:userData)=>void
 }
 
-type userData = {
+export type userData = {
     token: string,
     name: string,
     id: number,

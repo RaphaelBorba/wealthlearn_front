@@ -48,7 +48,9 @@ export default function Header() {
                         height={100}
                     />
                     <Navigation />
-                    <SearchField />
+                    <div className="hidden min-[900px]:block">
+                        <SearchField />
+                    </div>
                 </div>
 
                 <div className="hidden min-[580px]:flex flex-row gap-8 items-center">
@@ -89,7 +91,7 @@ export default function Header() {
 
                 </div>
 
-                <MobileSheet/>
+                <MobileSheet userData={userData}/>
             </div>
         </header>
     )
