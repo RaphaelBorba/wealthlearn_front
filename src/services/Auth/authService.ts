@@ -38,3 +38,16 @@ export async function logout() {
     setUserData({access:0, id:0, name:"", token:""})
     window.location.replace("/")
 }
+
+export async function ifTokenInvalidDisconnect(token:string){
+
+    if (token) {
+        try {
+            await validateJWTToken(token)
+        } catch (error) {
+            console.log(error)
+            setTimeout(logout, 500)
+            
+        }
+    }
+}

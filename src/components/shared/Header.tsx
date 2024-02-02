@@ -31,9 +31,10 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { Separator } from "../ui/separator";
-import { logout } from "@/services/Auth/authService";
+import { ifTokenInvalidDisconnect, logout } from "@/services/Auth/authService";
 import Link from "next/link";
 import { userStore } from "@/stores/userStore";
+import { validateJWTToken } from "@/services/JWT/JWTFunctions";
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -60,8 +61,12 @@ export default function Header() {
     }
 
     useEffect(() => {
+        const asyncFunction = async () => {
+            await ifTokenInvalidDisconnect(userData.token)
+        }
 
-    }, [])
+        asyncFunction()
+    })
 
     return (
         <header className=" w-screen max-w-full h-20 bg-muted fixed top-0 left-0 shadow-lg">
@@ -111,17 +116,17 @@ export default function Header() {
                             </NavigationMenuList>
                         </NavigationMenu>
                     </div>
+                    <div className="hidden min-[900px]:flex flex-row bg-background max-w-[400px] w-full border border-l-2 rounded-md">
+                        <Input
+                            placeholder="Procure um investimento..."
+                            className="outline-none rounded-md border-none"
+                        />
+                        <Button variant="link" className="border-none group">
+                            <Search className="size-4 group-hover:scale-110 transition duration-200" />
+                        </Button>
+                    </div>
                 </div>
 
-                <div className="hidden min-[1100px]:flex flex-row bg-background max-w-[400px] w-full border border-l-2 rounded-md">
-                    <Input
-                        placeholder="Procure um investimento..."
-                        className="outline-none rounded-md border-none"
-                    />
-                    <Button variant="link" className="border-none group">
-                        <Search className="size-4 group-hover:scale-110 transition duration-200" />
-                    </Button>
-                </div>
                 <div className="hidden min-[580px]:flex flex-row gap-8 items-center">
                     <div className="flex flex-row gap-2 items-center">
                         <Label htmlFor="theme_mode" ><SunMoon /></Label>
@@ -141,14 +146,19 @@ export default function Header() {
                                     <Settings className="cursor-pointer hover:scale-110 transition duration-200" />
                                 </PopoverTrigger>
                                 <PopoverContent className="mt-2 w-40 gap-3 flex flex-col">
-                                    <h1 className="flex font-bold gap-4 w-full justify-between">Perfil <UserRound /></h1>
+                                    <Button variant="ghost"
+                                        className="flex font-bold gap-4 w-full justify-between"
+                                    >
+                                        Perfil <UserRound />
+                                    </Button>
                                     <Separator />
-                                    <h1
+                                    <Button
+                                        variant="ghost"
                                         onClick={logout}
-                                        className="flex font-bold gap-4 text-destructive justify-between"
+                                        className="flex font-bold gap-4 text-destructive hover:text-destructive justify-between"
                                     >
                                         Sair <LogOut />
-                                    </h1>
+                                    </Button>
                                 </PopoverContent>
                             </Popover>
                     }
