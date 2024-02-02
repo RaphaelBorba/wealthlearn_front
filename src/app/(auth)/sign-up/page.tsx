@@ -16,6 +16,7 @@ import { createNewUser } from "@/services/Auth/authService";
 import { useToast } from "@/components/ui/use-toast";
 import AuthHeroSection from "@/components/shared/AuthHeroSection";
 import Link from "next/link";
+import Image from "next/image";
 
 const formZodSchema = z.object({
     name: z.string().min(3),
@@ -56,10 +57,16 @@ export default function SignUpPage() {
         }
     }
     return (
-        <main className="h-screen flex justify-center items-center gap-10">
+        <main className="h-screen flex justify-center items-center gap-10 px-4">
             <AuthHeroSection />
             <article className="max-w-lg w-full">
-                <h1 className="text-center">LOGO</h1>
+                <Image
+                    className="mx-auto"
+                    alt="Logo"
+                    src="/logo-blue.svg"
+                    width={350}
+                    height={350}
+                />
                 <Form {...form}>
                     <form className="flex flex-col gap-6" onSubmit={form.handleSubmit(onSubmit)}>
                         {/* USERNAME */}

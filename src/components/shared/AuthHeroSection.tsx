@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function AuthHeroSection(){
 
     return(
-        <section className="text-center flex flex-col max-w-lg items-center">
+        <section className="hidden md:flex text-center flex-col max-w-lg items-center">
         <Image
             src="/authHero.png"
             alt="Hero Auth"

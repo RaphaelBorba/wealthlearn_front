@@ -25,11 +25,15 @@ import {
 import { Switch } from "@/components/ui/switch"
 import { Label } from "../ui/label";
 import { cn } from "@/lib/utils";
-import { Menu, Search, Settings, SunMoon } from "lucide-react";
+import { LogOut, Menu, Search, Settings, SunMoon, UserRound } from "lucide-react";
 
 import React, { useEffect } from "react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { Separator } from "../ui/separator";
+import { logout } from "@/services/Auth/authService";
+import Link from "next/link";
+import { userStore } from "@/stores/userStore";
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -48,6 +52,7 @@ const components: { title: string; href: string; description: string }[] = [
 
 export default function Header() {
 
+    const { userData, setUserData } = userStore()
     const { setTheme, theme } = useTheme()
     function setThemeHeader() {
         if (theme === "dark") return setTheme("light")
@@ -64,7 +69,7 @@ export default function Header() {
                 <div className="flex flex-row gap-5 items-center">
                     <Image
                         alt="Logo"
-                        src={theme === "light" ? "/logo-dark.svg" : "/logo-light.svg"}
+                        src="/logo-blue.svg"
                         width={120}
                         height={100}
                     />
@@ -122,12 +127,31 @@ export default function Header() {
                         <Label htmlFor="theme_mode" ><SunMoon /></Label>
                         <Switch onCheckedChange={setThemeHeader} id="theme_mode" />
                     </div>
-                    <Popover>
-                        <PopoverTrigger>
-                            <Settings className="cursor-pointer hover:scale-110 transition duration-200" />
-                        </PopoverTrigger>
-                        <PopoverContent className="mt-2">Place content for the popover here.</PopoverContent>
-                    </Popover>
+                    {
+                        userData.id === 0 ?
+                            <Link
+                                href="/sign-in"
+                                className="font-bold hover:underline"
+                            >
+                                Login
+                            </Link>
+                            :
+                            <Popover>
+                                <PopoverTrigger>
+                                    <Settings className="cursor-pointer hover:scale-110 transition duration-200" />
+                                </PopoverTrigger>
+                                <PopoverContent className="mt-2 w-40 gap-3 flex flex-col">
+                                    <h1 className="flex font-bold gap-4 w-full justify-between">Perfil <UserRound /></h1>
+                                    <Separator />
+                                    <h1
+                                        onClick={logout}
+                                        className="flex font-bold gap-4 text-destructive justify-between"
+                                    >
+                                        Sair <LogOut />
+                                    </h1>
+                                </PopoverContent>
+                            </Popover>
+                    }
 
                 </div>
 

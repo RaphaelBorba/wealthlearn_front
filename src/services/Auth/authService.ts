@@ -1,18 +1,40 @@
 import { SignUpForm } from "@/types/signUpForm";
 import api from "../api";
 import { SignInForm } from "@/types/signInForm";
+import { validateJWTToken } from "../JWT/JWTFunctions";
+import { userStore } from "@/stores/userStore";
+import { toast } from "@/components/ui/use-toast";
 
+const setUserData = userStore.getState().setUserData
 
 export async function createNewUser(body: SignUpForm) {
 
-        const response = await api.post("/auth/register", {...body, user_access_id:2})
-        return response
-    
-
+    const response = await api.post("/auth/register", { ...body, user_access_id: 2 })
+    return response
 }
 
-export async function login(body:SignInForm){
+export async function login(body: SignInForm) {
 
-    const response = await api.post("/auth/login", body)
-    return response
+    try {
+        const response = await api.post<string>("/auth/login", body)
+        const token = response.data
+        const { access, id, name } = await validateJWTToken(token)
+        setUserData({ access, id, name, token })
+        return true
+
+    } catch (error: any) {
+        console.log(error)
+        const message = error.response.data.message
+        toast({
+            title: "Ops! Algo deu errado!",
+            description: Array.isArray(message) ? message[0] : message,
+            variant: "destructive"
+        })
+        return false
+    }
+}
+
+export async function logout() {
+    setUserData({access:0, id:0, name:"", token:""})
+    window.location.replace("/")
 }
