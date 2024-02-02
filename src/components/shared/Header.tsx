@@ -1,5 +1,4 @@
 "use client"
-import { Search, Settings } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import {
@@ -10,15 +9,35 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
 import { Switch } from "@/components/ui/switch"
-import React from "react";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
 import { Label } from "../ui/label";
+import { cn } from "@/lib/utils";
+import { Menu, Search, Settings, SunMoon } from "lucide-react";
+
+import React, { useEffect } from "react";
+import Image from "next/image";
 import { useTheme } from "next-themes";
 
-
 const components: { title: string; href: string; description: string }[] = [
+    {
+        title: "Alert Dialog",
+        href: "/docs/primitives/alert-dialog",
+        description:
+            "A modal dialog that interrupts the user with important content and expects a response.",
+    },
     {
         title: "Alert Dialog",
         href: "/docs/primitives/alert-dialog",
@@ -29,61 +48,67 @@ const components: { title: string; href: string; description: string }[] = [
 
 export default function Header() {
 
-    const {setTheme, theme} = useTheme()
-    function setThemeHeader(){
-        if(theme === "dark") return setTheme("light")
+    const { setTheme, theme } = useTheme()
+    function setThemeHeader() {
+        if (theme === "dark") return setTheme("light")
         else return setTheme("dark")
     }
 
+    useEffect(() => {
+
+    }, [])
+
     return (
         <header className=" w-screen max-w-full h-20 bg-muted fixed top-0 left-0 shadow-lg">
-            <div className="wrapper h-full flex flex-row items-center justify-around gap-5">
+            <div className="wrapper h-full flex flex-row items-center justify-between gap-5">
                 <div className="flex flex-row gap-5 items-center">
                     <Image
                         alt="Logo"
-                        src={theme==="light" ? "/logo-dark.svg": "/logo-light.svg"}
+                        src={theme === "light" ? "/logo-dark.svg" : "/logo-light.svg"}
                         width={120}
                         height={100}
                     />
-                    <NavigationMenu>
-                        <NavigationMenuList>
-                            <NavigationMenuItem>
-                                <NavigationMenuTrigger className="text-base">Começo!</NavigationMenuTrigger>
-                                <NavigationMenuContent>
-                                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                                        {components.map((component) => (
-                                            <ListItem
-                                                key={component.title}
-                                                title={component.title}
-                                                href={component.href}
-                                            >
-                                                {component.description}
-                                            </ListItem>
-                                        ))}
-                                    </ul>
-                                </NavigationMenuContent>
-                            </NavigationMenuItem>
-                            <NavigationMenuItem>
-                                <NavigationMenuTrigger className="text-base">Calculadoras</NavigationMenuTrigger>
-                                <NavigationMenuContent>
-                                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                                        {components.map((component) => (
-                                            <ListItem
-                                                key={component.title}
-                                                title={component.title}
-                                                href={component.href}
-                                            >
-                                                {component.description}
-                                            </ListItem>
-                                        ))}
-                                    </ul>
-                                </NavigationMenuContent>
-                            </NavigationMenuItem>
-                        </NavigationMenuList>
-                    </NavigationMenu>
+                    <div className="hidden min-[580px]:block">
+                        <NavigationMenu>
+                            <NavigationMenuList>
+                                <NavigationMenuItem>
+                                    <NavigationMenuTrigger className="text-base">Começo!</NavigationMenuTrigger>
+                                    <NavigationMenuContent>
+                                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                                            {components.map((component) => (
+                                                <ListItem
+                                                    key={component.title}
+                                                    title={component.title}
+                                                    href={component.href}
+                                                >
+                                                    {component.description}
+                                                </ListItem>
+                                            ))}
+                                        </ul>
+                                    </NavigationMenuContent>
+                                </NavigationMenuItem>
+                                <NavigationMenuItem>
+                                    <NavigationMenuTrigger className="text-base">Calculadoras</NavigationMenuTrigger>
+                                    <NavigationMenuContent>
+                                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                                            {components.map((component) => (
+                                                <ListItem
+                                                    key={component.title}
+                                                    title={component.title}
+                                                    href={component.href}
+                                                >
+                                                    {component.description}
+                                                </ListItem>
+                                            ))}
+                                        </ul>
+                                    </NavigationMenuContent>
+                                </NavigationMenuItem>
+                            </NavigationMenuList>
+                        </NavigationMenu>
+                    </div>
                 </div>
 
-                <div className="flex flex-row bg-background max-w-[400px] w-full border border-l-2 rounded-md">
+                <div className="hidden min-[1100px]:flex flex-row bg-background max-w-[400px] w-full border border-l-2 rounded-md">
                     <Input
                         placeholder="Procure um investimento..."
                         className="outline-none rounded-md border-none"
@@ -92,12 +117,33 @@ export default function Header() {
                         <Search className="size-4 group-hover:scale-110 transition duration-200" />
                     </Button>
                 </div>
-                <div className="flex flex-row gap-8 items-center">
+                <div className="hidden min-[580px]:flex flex-row gap-8 items-center">
                     <div className="flex flex-row gap-2 items-center">
-                        <Label htmlFor="theme_mode" >Trocar de Tema</Label>
+                        <Label htmlFor="theme_mode" ><SunMoon /></Label>
                         <Switch onCheckedChange={setThemeHeader} id="theme_mode" />
                     </div>
-                    <Settings className="cursor-pointer text-primary hover:scale-110 transition duration-200" />
+                    <Popover>
+                        <PopoverTrigger>
+                            <Settings className="cursor-pointer hover:scale-110 transition duration-200" />
+                        </PopoverTrigger>
+                        <PopoverContent className="mt-2">Place content for the popover here.</PopoverContent>
+                    </Popover>
+
+                </div>
+
+                <div className="flex min-[580px]:hidden">
+                    <Sheet >
+                        <SheetTrigger><Menu /></SheetTrigger>
+                        <SheetContent>
+                            <SheetHeader>
+                                <SheetTitle>Are you absolutely sure?</SheetTitle>
+                                <SheetDescription>
+                                    This action cannot be undone. This will permanently delete your account
+                                    and remove your data from our servers.
+                                </SheetDescription>
+                            </SheetHeader>
+                        </SheetContent>
+                    </Sheet>
                 </div>
             </div>
         </header>

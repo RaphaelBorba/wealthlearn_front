@@ -8,8 +8,6 @@ export default function Home() {
     
     <main className="bg-background w-screen h-screen flex justify-center items-center">
       <Header/>
-      
-      
     </main>
   );
 }
