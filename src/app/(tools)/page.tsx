@@ -19,7 +19,7 @@ export default function MainPage() {
           height={400}
         />
         <div className="text-center absolute flex flex-col gap-5 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30">
-          <h1 className={`text-5xl min-[600px]:text-7xl font-bold text-primary ${marcellus.className}`}>WEALTHLEARN</h1>
+          <h1 className={`text-4xl min-[430px]:text-6xl min-[530px]:text-7xl font-bold text-primary ${marcellus.className}`}>WEALTHLEARN</h1>
           <span
             className="text-base min-[600px]:text-lg font-bold"
           >
