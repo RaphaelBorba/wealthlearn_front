@@ -28,19 +28,21 @@ interface IMobileSheet {
 export default function MobileSheet({ userData }: IMobileSheet) {
 
   return (
-    <div className="flex min-[580px]:hidden">
+    <div className="flex min-[600px]:hidden">
       <Sheet >
         <SheetTrigger><Menu /></SheetTrigger>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>
-                <Image 
-                className="mx-auto"
-                alt="Logo"
-                src="logo-blue.svg"
-                width={200}
-                height={100}
+              <Link href="/">
+                <Image
+                  className="mx-auto"
+                  alt="Logo"
+                  src="logo-blue.svg"
+                  width={200}
+                  height={100}
                 />
+              </Link>
             </SheetTitle>
           </SheetHeader>
           <nav className="pt-5 relative h-full">
@@ -69,7 +71,9 @@ export default function MobileSheet({ userData }: IMobileSheet) {
                 userData.id !== 0 ?
                   <>
                     <SheetClose asChild>
-                      <Button  variant="outline" className="flex gap-5" >Perfil <User /> </Button>
+                      <Link className="w-full" href="/perfil">
+                        <Button variant="outline" className="flex gap-5 w-full" >Perfil <User /> </Button>
+                      </Link>
                     </SheetClose>
                     <SheetClose asChild>
                       <Button onClick={logout} variant="destructive" className="flex gap-5" >Sair da Conta <LogOut /></Button>

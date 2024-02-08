@@ -26,7 +26,7 @@ const components: { title: string; href: string; description: string }[] = [
 export default function Navigation(){
 
     return(
-        <div className="hidden min-[580px]:block">
+        <div className="hidden min-[600px]:block">
                         <NavigationMenu>
                             <NavigationMenuList>
                                 <NavigationMenuItem>
