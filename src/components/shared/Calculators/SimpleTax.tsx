@@ -13,33 +13,36 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { useState } from "react"
+import { postCalculatorSimpleTax } from "@/services/Calculators"
 
 
 const formZodSchema = z.object({
   amount: z.number().min(1, "Número deve ser maior que 1!").max(1000000000, "Número deve ser menor que 1000000000"),
   tax: z.number().min(0.1, "Número deve ser maior que 0.1!").max(100, "Número deve ser menor que 100"),
-  timeMonth: z.number().min(1, "Número deve ser maior que 1").max(2000, "Número deve ser menor que 2000")
+  time: z.number().min(1, "Número deve ser maior que 1").max(2000, "Número deve ser menor que 2000")
 })
 
 type TFormZodSchema = z.infer<typeof formZodSchema>
 
 export default function SimpleTaxCalculator() {
 
-  const [typeTime, setTypeTime] = useState("year")
-  const [typeTax, setTypeTax] = useState("year")
+  const [typeTime, setTypeTime] = useState<'year'|'month'>("year")
+  const [typeTax, setTypeTax] = useState<'year'|'month'>("year")
   const form = useForm<TFormZodSchema>({
     defaultValues: {
       amount: 0,
       tax: 0,
-      timeMonth: 0
+      time: 0
     },
     resolver: zodResolver(formZodSchema),
   })
 
-  function onSubmit(form: TFormZodSchema) {
+  async function onSubmit(form: TFormZodSchema) {
     const data = {...form, typeTax, typeTime}
-    console.log(data)
-    return
+    
+
+    const response =await postCalculatorSimpleTax(data)
+    console.log(response)
   }
 
   return (
@@ -88,7 +91,7 @@ export default function SimpleTaxCalculator() {
                       {...field}
                       onChange={event => field.onChange(+event.target.value)}
                     />
-                    <Select onValueChange={(e)=>setTypeTax(e)} defaultValue={typeTax}>
+                    <Select onValueChange={(e:'year'|'month')=>setTypeTax(e)} defaultValue={typeTax}>
                       <SelectTrigger className="w-[120px] focus-visible:ring-transparent">
                         <SelectValue placeholder="Time" />
                       </SelectTrigger>
@@ -105,7 +108,7 @@ export default function SimpleTaxCalculator() {
           />
           <FormField
             control={form.control}
-            name="timeMonth"
+            name="time"
             render={({ field }) => (
               <FormItem className="w-full min-[600px]:w-96">
                 <FormLabel>Período:</FormLabel>
@@ -118,7 +121,7 @@ export default function SimpleTaxCalculator() {
                       {...field}
                       onChange={event => field.onChange(+event.target.value)}
                     />
-                    <Select onValueChange={(e)=>setTypeTime(e)} defaultValue={typeTime}>
+                    <Select onValueChange={(e:'year'|'month')=>setTypeTime(e)} defaultValue={typeTime}>
                       <SelectTrigger className="w-[120px] focus-visible:ring-transparent">
                         <SelectValue placeholder="Time" />
                       </SelectTrigger>
