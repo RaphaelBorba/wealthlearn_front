@@ -33,9 +33,9 @@ export default function Navigation(){
                                     <NavigationMenuTrigger className="text-base">Começo!</NavigationMenuTrigger>
                                     <NavigationMenuContent>
                                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                                            {components.map((component) => (
+                                            {components.map((component, index) => (
                                                 <ListItem
-                                                    key={component.title}
+                                                    key={index}
                                                     title={component.title}
                                                     href={component.href}
                                                 >
@@ -49,9 +49,9 @@ export default function Navigation(){
                                     <NavigationMenuTrigger className="text-base">Calculadoras</NavigationMenuTrigger>
                                     <NavigationMenuContent>
                                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                                            {components.map((component) => (
+                                            {components.map((component, index) => (
                                                 <ListItem
-                                                    key={component.title}
+                                                    key={index}
                                                     title={component.title}
                                                     href={component.href}
                                                 >

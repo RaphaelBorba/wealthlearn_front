@@ -38,7 +38,7 @@ export default function MobileSheet({ userData }: IMobileSheet) {
                 <Image
                   className="mx-auto"
                   alt="Logo"
-                  src="logo-blue.svg"
+                  src="/logo-blue.svg"
                   width={200}
                   height={100}
                 />
