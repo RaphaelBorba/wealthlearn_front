@@ -25,7 +25,8 @@ type TFormZodSchema = z.infer<typeof formZodSchema>
 
 export default function SimpleTaxCalculator() {
 
-  const [timeCalc, setTimeCalc] = useState("year")
+  const [typeTime, setTypeTime] = useState("year")
+  const [typeTax, setTypeTax] = useState("year")
   const form = useForm<TFormZodSchema>({
     defaultValues: {
       amount: 0,
@@ -35,7 +36,8 @@ export default function SimpleTaxCalculator() {
     resolver: zodResolver(formZodSchema),
   })
 
-  function onSubmit(data: TFormZodSchema) {
+  function onSubmit(form: TFormZodSchema) {
+    const data = {...form, typeTax, typeTime}
     console.log(data)
     return
   }
@@ -78,7 +80,7 @@ export default function SimpleTaxCalculator() {
                 <FormLabel>Taxa de Juros:</FormLabel>
                 <FormControl>
                   <div className="flex items-center gap-1">
-                    <span className="text-lg bg-secondary w-12 py-1 flex justify-center items-center rounded-md">%</span>
+                    <span className="text-lg bg-secondary min-w-8 py-1 flex justify-center items-center rounded-md">%</span>
                     <Input
                       type="number"
                       className="outline-none"
@@ -86,6 +88,15 @@ export default function SimpleTaxCalculator() {
                       {...field}
                       onChange={event => field.onChange(+event.target.value)}
                     />
+                    <Select onValueChange={(e)=>setTypeTax(e)} defaultValue={typeTax}>
+                      <SelectTrigger className="w-[120px] focus-visible:ring-transparent">
+                        <SelectValue placeholder="Time" />
+                      </SelectTrigger>
+                      <SelectContent className="mr-8">
+                        <SelectItem value="year">Anual</SelectItem>
+                        <SelectItem value="month">Mensal</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </FormControl>
                 <FormMessage />
@@ -107,11 +118,11 @@ export default function SimpleTaxCalculator() {
                       {...field}
                       onChange={event => field.onChange(+event.target.value)}
                     />
-                    <Select onValueChange={(e)=>setTimeCalc(e)} defaultValue={timeCalc}>
+                    <Select onValueChange={(e)=>setTypeTime(e)} defaultValue={typeTime}>
                       <SelectTrigger className="w-[120px] focus-visible:ring-transparent">
                         <SelectValue placeholder="Time" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="mr-8">
                         <SelectItem value="year">Ano</SelectItem>
                         <SelectItem value="month">Mês</SelectItem>
                       </SelectContent>
@@ -123,7 +134,7 @@ export default function SimpleTaxCalculator() {
             )}
           />
         </div>
-        <div className="w-full flex flex-col min-[600px]:flex-row justify-end gap-10 mt-10">
+        <div className="w-full flex flex-col min-[600px]:flex-row justify-end gap-10 mt-24">
           <Button className="w-full min-[600px]:w-36" type="submit">CALCULAR</Button>
           <Button className="w-full min-[600px]:w-36" onClick={() => form.reset()} variant="secondary">LIMPAR</Button>
         </div>
