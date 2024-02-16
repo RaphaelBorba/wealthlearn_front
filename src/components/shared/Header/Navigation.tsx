@@ -2,7 +2,6 @@ import {
     NavigationMenu,
     NavigationMenuContent,
     NavigationMenuItem,
-    NavigationMenuLink,
     NavigationMenuList,
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
@@ -10,16 +9,16 @@ import { ListItem } from "./ListItem";
 
 const components: { title: string; href: string; description: string }[] = [
     {
-        title: "Alert Dialog",
-        href: "/docs/primitives/alert-dialog",
+        title: "Calculadora de Juros Simples",
+        href: "/calculadora/juros-simples",
         description:
-            "A modal dialog that interrupts the user with important content and expects a response.",
+            "Juros simples determina os juros gerados por um capital inicial com base na taxa de juros e no período de tempo.",
     },
     {
-        title: "Alert Dialog",
-        href: "/docs/primitives/alert-dialog",
+        title: "Calculadora de Juros Compostos",
+        href: "/calculadora/juros-compostos",
         description:
-            "A modal dialog that interrupts the user with important content and expects a response.",
+            "Juros compostos estima o crescimento de um capital ao longo do tempo, levando em consideração a taxa de juros e o número de períodos de capitalização, resultando em ganhos que aumentam progressivamente com o tempo.",
     }
 ]
 

@@ -1,3 +1,4 @@
+'use client'
 import SimpleTaxCalculator from "@/components/shared/Calculators/SimpleTax"
 import {
   Card,
@@ -6,8 +7,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { CalculatorResponse } from "@/types/calculators"
+import { useState } from "react"
 
 export default function JurosSimplesPAge() {
+
+  const [calculatorResponse, setCalculatorResponse] = useState<null| CalculatorResponse>(null)
 
   return (
     <main className="wrapper pb-20">

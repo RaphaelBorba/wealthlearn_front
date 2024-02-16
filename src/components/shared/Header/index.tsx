@@ -40,7 +40,7 @@ export default function Header() {
   })
 
   return (
-    <header className=" w-screen max-w-full h-20 bg-muted fixed top-0 left-0 shadow-lg z-50">
+    <header className=" w-screen max-w-full h-20 bg-muted fixed top-0 left-0 shadow-lg z-50 pl-[calc(100vw-100%)]">
       <div className="wrapper h-full flex flex-row items-center justify-between gap-5">
         <div className="flex flex-row gap-5 items-center">
           <Link href="/">

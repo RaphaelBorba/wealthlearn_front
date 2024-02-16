@@ -26,8 +26,8 @@ type TFormZodSchema = z.infer<typeof formZodSchema>
 
 export default function SimpleTaxCalculator() {
 
-  const [typeTime, setTypeTime] = useState<'year'|'month'>("year")
-  const [typeTax, setTypeTax] = useState<'year'|'month'>("year")
+  const [typeTime, setTypeTime] = useState<'year' | 'month'>("year")
+  const [typeTax, setTypeTax] = useState<'year' | 'month'>("year")
   const form = useForm<TFormZodSchema>({
     defaultValues: {
       amount: 0,
@@ -38,10 +38,9 @@ export default function SimpleTaxCalculator() {
   })
 
   async function onSubmit(form: TFormZodSchema) {
-    const data = {...form, typeTax, typeTime}
-    
+    const data = { ...form, typeTax, typeTime }
 
-    const response =await postCalculatorSimpleTax(data)
+    const response = await postCalculatorSimpleTax(data)
     console.log(response)
   }
 
@@ -91,7 +90,7 @@ export default function SimpleTaxCalculator() {
                       {...field}
                       onChange={event => field.onChange(+event.target.value)}
                     />
-                    <Select onValueChange={(e:'year'|'month')=>setTypeTax(e)} defaultValue={typeTax}>
+                    <Select onValueChange={(e: 'year' | 'month') => setTypeTax(e)} defaultValue={typeTax}>
                       <SelectTrigger className="w-[120px] focus-visible:ring-transparent">
                         <SelectValue placeholder="Time" />
                       </SelectTrigger>
@@ -121,7 +120,7 @@ export default function SimpleTaxCalculator() {
                       {...field}
                       onChange={event => field.onChange(+event.target.value)}
                     />
-                    <Select onValueChange={(e:'year'|'month')=>setTypeTime(e)} defaultValue={typeTime}>
+                    <Select onValueChange={(e: 'year' | 'month') => setTypeTime(e)} defaultValue={typeTime}>
                       <SelectTrigger className="w-[120px] focus-visible:ring-transparent">
                         <SelectValue placeholder="Time" />
                       </SelectTrigger>
