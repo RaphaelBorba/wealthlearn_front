@@ -12,8 +12,9 @@ import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { useState } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
 import { postCalculatorSimpleTax } from "@/services/Calculators"
+import { CalculatorResponse } from "@/types/calculators"
 
 
 const formZodSchema = z.object({
@@ -24,29 +25,33 @@ const formZodSchema = z.object({
 
 type TFormZodSchema = z.infer<typeof formZodSchema>
 
-export default function SimpleTaxCalculator() {
+interface IProps {
+  setCalculatorResponse: Dispatch<SetStateAction<CalculatorResponse | null>>
+}
+
+export default function SimpleTaxCalculator({ setCalculatorResponse }: IProps) {
 
   const [typeTime, setTypeTime] = useState<'year' | 'month'>("year")
   const [typeTax, setTypeTax] = useState<'year' | 'month'>("year")
+  const [isDisable, setIsDisable] = useState<boolean>(false)
   const form = useForm<TFormZodSchema>({
-    defaultValues: {
-      amount: 0,
-      tax: 0,
-      time: 0
-    },
     resolver: zodResolver(formZodSchema),
   })
 
   async function onSubmit(form: TFormZodSchema) {
+    setIsDisable(true)
     const data = { ...form, typeTax, typeTime }
-
     const response = await postCalculatorSimpleTax(data)
-    console.log(response)
+    setCalculatorResponse(response)
+    setIsDisable(false)
   }
 
+  function resetForm(){
+    form.reset({amount:NaN, tax:NaN, time:NaN})
+    form.clearErrors()
+    setCalculatorResponse(null)
+  }
   return (
-
-
     <Form {...form}>
       <form className="flex flex-col md:px-12 max-w-5xl mx-auto" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="flex min-[600px]:flex-row flex-col justify-between gap-5 w-full">
@@ -61,9 +66,10 @@ export default function SimpleTaxCalculator() {
 
                     <span className="text-lg bg-secondary w-12 py-1 flex justify-center items-center rounded-md">R$</span>
                     <Input
+                      disabled={isDisable}
                       type="number"
                       className="outline-none"
-                      placeholder="R$1000,00"
+                      placeholder="1000,00"
                       step="0.01"
                       {...field}
                       onChange={event => field.onChange(+event.target.value)}
@@ -84,9 +90,10 @@ export default function SimpleTaxCalculator() {
                   <div className="flex items-center gap-1">
                     <span className="text-lg bg-secondary min-w-8 py-1 flex justify-center items-center rounded-md">%</span>
                     <Input
+                      disabled={isDisable}
                       type="number"
                       className="outline-none"
-                      placeholder="12%"
+                      placeholder="12"
                       {...field}
                       onChange={event => field.onChange(+event.target.value)}
                     />
@@ -114,9 +121,10 @@ export default function SimpleTaxCalculator() {
                 <FormControl>
                   <div className="flex flex-row">
                     <Input
+                      disabled={isDisable}
                       type="number"
                       className="outline-none"
-                      placeholder="10 meses"
+                      placeholder="10"
                       {...field}
                       onChange={event => field.onChange(+event.target.value)}
                     />
@@ -136,9 +144,13 @@ export default function SimpleTaxCalculator() {
             )}
           />
         </div>
-        <div className="w-full flex flex-col min-[600px]:flex-row justify-end gap-10 mt-24">
-          <Button className="w-full min-[600px]:w-36" type="submit">CALCULAR</Button>
-          <Button className="w-full min-[600px]:w-36" onClick={() => form.reset()} variant="secondary">LIMPAR</Button>
+        <div className="w-full flex flex-col min-[600px]:flex-row justify-end gap-5 min-[600px]:gap-10 mt-[90px]">
+          <Button disabled={isDisable} className="w-full min-[600px]:w-36" type="submit">CALCULAR</Button>
+          <Button 
+          type="reset"
+          className="w-full min-[600px]:w-36" 
+          onClick={resetForm} 
+          variant="secondary">LIMPAR</Button>
         </div>
       </form>
     </Form>

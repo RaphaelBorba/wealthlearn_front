@@ -1,5 +1,7 @@
 'use client'
-import SimpleTaxCalculator from "@/components/shared/Calculators/SimpleTax"
+import BarChartResponse from "@/components/shared/Calculators/SimpleTax/BarChartResponse"
+import { ShowResponse } from "@/components/shared/Calculators/SimpleTax/ShowResponse"
+import SimpleTaxCalculator from "@/components/shared/Calculators/SimpleTax/SimpleTaxForm"
 import {
   Card,
   CardContent,
@@ -23,8 +25,10 @@ export default function JurosSimplesPAge() {
             <CardTitle className="text-primary">Calculadora de Juros Simples</CardTitle>
           </CardHeader>
           <CardContent>
-            <SimpleTaxCalculator />
+            <SimpleTaxCalculator setCalculatorResponse={setCalculatorResponse} />
           </CardContent>
+          {
+            calculatorResponse === null ?
           <CardFooter className="flex flex-col items-start gap-4">
             <h1 className="text-xl font-bold">Como usar a calculadora de juros simples:</h1>
             <ul className="ml-5 min-[600px]:ml-10">
@@ -66,6 +70,11 @@ export default function JurosSimplesPAge() {
             <p>Portanto, uma calculadora de juros simples permitiria ao usuário inserir o valor principal, a taxa de juros e o número de períodos de tempo, e então calcularia e exibiria o valor dos juros.</p>
             <p>Essa ferramenta pode ser útil para pessoas que desejam entender melhor o custo de um empréstimo ou o retorno potencial de um investimento.</p>
           </CardFooter>
+          :
+          <CardFooter className="max-h-[500px]">
+            <ShowResponse data={calculatorResponse}/>
+          </CardFooter>
+          }
         </Card>
       </div>
 

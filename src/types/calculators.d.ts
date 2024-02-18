@@ -9,11 +9,11 @@ export type SimpleTaxCalculator = {
 
 export type CalculatorResponse = {
     timeType: 'year' | 'month';
-    timeTax: 
+    timeTaxs: 
         {
             tax: number;
             time: number;
-            totalAmount: number;
+            amount: number;
             totalTax: number;
         }[]
     
