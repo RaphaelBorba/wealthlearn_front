@@ -33,9 +33,9 @@ export function TableResponse({data}:IProps) {
                     <TableRow key={index}>
                         <TableCell className="font-medium">{tax.time}</TableCell>
                         <TableCell>{RSReal.format(tax.tax)}</TableCell>
-                        <TableCell>{RSReal.format(tax.amount)}</TableCell>
+                        <TableCell>{RSReal.format(tax.investedMoney)}</TableCell>
                         <TableCell>{RSReal.format(tax.totalTax)}</TableCell>
-                        <TableCell>{RSReal.format(tax.totalTax + tax.amount)}</TableCell>
+                        <TableCell>{RSReal.format(tax.totalAmount)}</TableCell>
                     </TableRow>
                 ))}
             </TableBody>

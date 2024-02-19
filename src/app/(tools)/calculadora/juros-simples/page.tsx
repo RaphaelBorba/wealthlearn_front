@@ -1,6 +1,5 @@
 'use client'
-import BarChartResponse from "@/components/shared/Calculators/SimpleTax/BarChartResponse"
-import { ShowResponse } from "@/components/shared/Calculators/SimpleTax/ShowResponse"
+import { ShowResponse } from "@/components/shared/Calculators/ShowResponse"
 import SimpleTaxCalculator from "@/components/shared/Calculators/SimpleTax/SimpleTaxForm"
 import {
   Card,
@@ -71,7 +70,7 @@ export default function JurosSimplesPAge() {
             <p>Essa ferramenta pode ser útil para pessoas que desejam entender melhor o custo de um empréstimo ou o retorno potencial de um investimento.</p>
           </CardFooter>
           :
-          <CardFooter className="max-h-[500px]">
+          <CardFooter className="flex flex-col">
             <ShowResponse data={calculatorResponse}/>
           </CardFooter>
           }

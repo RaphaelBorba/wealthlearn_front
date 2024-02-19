@@ -45,7 +45,7 @@ export default function BarChartResponse({ data }: IProps) {
               return null
             }}
           />
-          <Bar dataKey="amount" stackId="a" fill="#3b82f6" />
+          <Bar dataKey="investedMoney" stackId="a" fill="#3b82f6" />
           <Bar dataKey="totalTax" stackId="a" fill="#48e383" />
         </BarChart>
       </ResponsiveContainer>

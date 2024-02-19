@@ -1,6 +1,6 @@
 'use client'
 import CompostTaxCalculator from "@/components/shared/Calculators/CompostTax/CompostTaxForm"
-import { ShowResponse } from "@/components/shared/Calculators/SimpleTax/ShowResponse"
+import { ShowResponse } from "@/components/shared/Calculators/ShowResponse"
 import {
   Card,
   CardContent,
@@ -74,7 +74,7 @@ export default function JurosCompostosPage() {
 
               </CardFooter>
               :
-              <CardFooter className="max-h-[500px]">
+              <CardFooter className="flex flex-col">
                 <ShowResponse data={calculatorResponse} />
               </CardFooter>
           }

@@ -16,11 +16,12 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { CalculatorResponse } from "@/types/calculators"
 import { CurrencyInput } from "react-currency-mask"
 import { calcularTaxaJurosAnual, calcularTaxaJurosMensal } from "@/lib/utils"
+import { postCalculatorCompostTax } from "@/services/Calculators"
 
 
 const formZodSchema = z.object({
   amount: z.number().min(1, "Número deve ser maior que 1!").max(1000000000, "Número deve ser menor que 1000000000"),
-  monthValue: z.number().min(1, "Número deve ser maior que 1").max(10000000, "Número deve ser menor que 10000000"),
+  monthValue: z.number().max(10000000, "Número deve ser menor que 10000000").optional(),
   tax: z.number().min(0.1, "Número deve ser maior que 0.1!").max(100, "Número deve ser menor que 100"),
   time: z.number().min(1, "Número deve ser maior que 1").max(2000, "Número deve ser menor que 2000"),
 })
@@ -52,12 +53,20 @@ export default function CompostTaxCalculator({ setCalculatorResponse }: IProps) 
     setTaxAccordingTime()
   }, [typeTax, form])
 
-  async function onSubmit(form: TFormZodSchema) {
+  async function onSubmit(formData: TFormZodSchema) {
     setIsDisable(true)
-    const data = { ...form, typeTax, typeTime }
+    const data =
+    {
+      ...formData,
+      typeTax,
+      typeTime,
+      monthValue: (formData.monthValue === undefined || Number.isNaN(formData.monthValue)) ? 0 : formData.monthValue,
+      tax: typeTax === "year" ? calcularTaxaJurosMensal(formData.tax) : formData.tax
+    }
     console.log(data)
-    //const response = await postCalculatorSimpleTax(data)
-    //setCalculatorResponse(response)
+    const response = await postCalculatorCompostTax(data)
+    setCalculatorResponse(response)
+    console.log(response)
     setIsDisable(false)
   }
 
