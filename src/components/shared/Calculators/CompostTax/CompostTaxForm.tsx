@@ -12,9 +12,10 @@ import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { Dispatch, SetStateAction, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { CalculatorResponse } from "@/types/calculators"
 import { CurrencyInput } from "react-currency-mask"
+import { calcularTaxaJurosAnual, calcularTaxaJurosMensal } from "@/lib/utils"
 
 
 const formZodSchema = z.object({
@@ -38,6 +39,18 @@ export default function CompostTaxCalculator({ setCalculatorResponse }: IProps) 
   const form = useForm<TFormZodSchema>({
     resolver: zodResolver(formZodSchema),
   })
+
+  useEffect(() => {
+
+    function setTaxAccordingTime() {
+      const taxValue = form.getValues("tax")
+      if (taxValue === undefined || taxValue === 0 || Number.isNaN(taxValue)) return
+
+      if (typeTax === "month") form.setValue("tax", calcularTaxaJurosMensal(taxValue))
+      else if (typeTax === "year") form.setValue("tax", calcularTaxaJurosAnual(taxValue))
+    }
+    setTaxAccordingTime()
+  }, [typeTax, form])
 
   async function onSubmit(form: TFormZodSchema) {
     setIsDisable(true)
