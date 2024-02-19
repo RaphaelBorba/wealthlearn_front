@@ -13,8 +13,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Dispatch, SetStateAction, useState } from "react"
-import { postCalculatorSimpleTax } from "@/services/Calculators"
 import { CalculatorResponse } from "@/types/calculators"
+import { CurrencyInput } from "react-currency-mask"
 
 
 const formZodSchema = z.object({
@@ -49,8 +49,7 @@ export default function CompostTaxCalculator({ setCalculatorResponse }: IProps) 
   }
 
   function resetForm() {
-    form.reset({ amount: NaN, tax: NaN, time: NaN, monthValue:NaN })
-    form.clearErrors()
+    form.reset({ amount: NaN, tax: NaN, time: NaN, monthValue: NaN })
     setCalculatorResponse(null)
   }
   return (
@@ -65,19 +64,10 @@ export default function CompostTaxCalculator({ setCalculatorResponse }: IProps) 
                 <FormItem className="w-full min-[600px]:w-96">
                   <FormLabel>Valor Inicial:</FormLabel>
                   <FormControl>
-                    <div className="flex items-center gap-1">
-
-                      <span className="text-lg bg-secondary w-12 py-1 flex justify-center items-center rounded-md">R$</span>
-                      <Input
-                        disabled={isDisable}
-                        type="number"
-                        className="outline-none"
-                        placeholder="1000,00"
-                        step="0.01"
-                        {...field}
-                        onChange={event => field.onChange(+event.target.value)}
-                      />
-                    </div>
+                    <CurrencyInput
+                      InputElement={<Input type="text" placeholder="R$1000,00" />}
+                      {...field}
+                      onChangeValue={(e, orig, mask) => field.onChange(Number(orig))} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -90,19 +80,10 @@ export default function CompostTaxCalculator({ setCalculatorResponse }: IProps) 
                 <FormItem className="w-full min-[600px]:w-96">
                   <FormLabel>Valor Mensal:</FormLabel>
                   <FormControl>
-                    <div className="flex items-center gap-1">
-
-                      <span className="text-lg bg-secondary w-12 py-1 flex justify-center items-center rounded-md">R$</span>
-                      <Input
-                        disabled={isDisable}
-                        type="number"
-                        className="outline-none"
-                        placeholder="1000,00"
-                        step="0.01"
-                        {...field}
-                        onChange={event => field.onChange(+event.target.value)}
-                      />
-                    </div>
+                    <CurrencyInput
+                      InputElement={<Input type="text" placeholder="R$1000,00" />}
+                      {...field}
+                      onChangeValue={(e, orig, mask) => field.onChange(Number(orig))} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -119,14 +100,11 @@ export default function CompostTaxCalculator({ setCalculatorResponse }: IProps) 
                   <FormControl>
                     <div className="flex items-center gap-1">
                       <span className="text-lg bg-secondary min-w-8 py-1 flex justify-center items-center rounded-md">%</span>
-                      <Input
-                        disabled={isDisable}
-                        type="number"
-                        className="outline-none"
-                        placeholder="12"
+                      <CurrencyInput
+                        hideSymbol
+                        InputElement={<Input type="text" placeholder="12,50%" />}
                         {...field}
-                        onChange={event => field.onChange(+event.target.value)}
-                      />
+                        onChangeValue={(e, orig, mask) => field.onChange(Number(orig))} />
                       <Select onValueChange={(e: 'year' | 'month') => setTypeTax(e)} defaultValue={typeTax}>
                         <SelectTrigger className="w-[120px] focus-visible:ring-transparent">
                           <SelectValue placeholder="Time" />

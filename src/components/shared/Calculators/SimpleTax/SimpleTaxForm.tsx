@@ -15,6 +15,7 @@ import { z } from "zod"
 import { Dispatch, SetStateAction, useState } from "react"
 import { postCalculatorSimpleTax } from "@/services/Calculators"
 import { CalculatorResponse } from "@/types/calculators"
+import { CurrencyInput } from 'react-currency-mask';
 
 
 const formZodSchema = z.object({
@@ -46,9 +47,8 @@ export default function SimpleTaxCalculator({ setCalculatorResponse }: IProps) {
     setIsDisable(false)
   }
 
-  function resetForm(){
-    form.reset({amount:NaN, tax:NaN, time:NaN})
-    form.clearErrors()
+  function resetForm() {
+    form.reset({ amount: NaN, tax: NaN, time: NaN })
     setCalculatorResponse(null)
   }
   return (
@@ -62,19 +62,10 @@ export default function SimpleTaxCalculator({ setCalculatorResponse }: IProps) {
               <FormItem className="w-full min-[600px]:w-96">
                 <FormLabel>Valor Inicial:</FormLabel>
                 <FormControl>
-                  <div className="flex items-center gap-1">
-
-                    <span className="text-lg bg-secondary w-12 py-1 flex justify-center items-center rounded-md">R$</span>
-                    <Input
-                      disabled={isDisable}
-                      type="number"
-                      className="outline-none"
-                      placeholder="1000,00"
-                      step="0.01"
-                      {...field}
-                      onChange={event => field.onChange(+event.target.value)}
-                    />
-                  </div>
+                  <CurrencyInput
+                    InputElement={<Input type="text" placeholder="R$1000,00" />}
+                    {...field}
+                    onChangeValue={(e, orig, mask) => field.onChange(Number(orig))} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -89,14 +80,11 @@ export default function SimpleTaxCalculator({ setCalculatorResponse }: IProps) {
                 <FormControl>
                   <div className="flex items-center gap-1">
                     <span className="text-lg bg-secondary min-w-8 py-1 flex justify-center items-center rounded-md">%</span>
-                    <Input
-                      disabled={isDisable}
-                      type="number"
-                      className="outline-none"
-                      placeholder="12"
+                    <CurrencyInput
+                      hideSymbol
+                      InputElement={<Input type="text" placeholder="12,50%" />}
                       {...field}
-                      onChange={event => field.onChange(+event.target.value)}
-                    />
+                      onChangeValue={(e, orig, mask) => field.onChange(Number(orig))} />
                     <Select onValueChange={(e: 'year' | 'month') => setTypeTax(e)} defaultValue={typeTax}>
                       <SelectTrigger className="w-[120px] focus-visible:ring-transparent">
                         <SelectValue placeholder="Time" />
@@ -146,11 +134,11 @@ export default function SimpleTaxCalculator({ setCalculatorResponse }: IProps) {
         </div>
         <div className="w-full flex flex-col min-[600px]:flex-row justify-end gap-5 min-[600px]:gap-10 mt-[90px]">
           <Button disabled={isDisable} className="w-full min-[600px]:w-36" type="submit">CALCULAR</Button>
-          <Button 
-          type="reset"
-          className="w-full min-[600px]:w-36" 
-          onClick={resetForm} 
-          variant="secondary">LIMPAR</Button>
+          <Button
+            type="reset"
+            className="w-full min-[600px]:w-36"
+            onClick={resetForm}
+            variant="secondary">LIMPAR</Button>
         </div>
       </form>
     </Form>
