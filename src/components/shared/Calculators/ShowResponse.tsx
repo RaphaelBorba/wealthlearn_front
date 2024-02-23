@@ -18,7 +18,7 @@ export function ShowResponse({ data }: IProps) {
   return (
     <>
       <div className="w-full h-fit py-10 flex flex-col justify-center gap-5 min-[846px]:flex-row ">
-        <Card className="h-fit pt-5">
+        <Card className="h-fit pt-5 px-3">
           <CardTitle className="text-center text-xl min-[1090px]:text-2xl">Valor Total Final:</CardTitle>
           <CardContent className="flex justify-center items-center">
             <h1 className="text-xl min-[1090px]:text-3xl mt-3">
@@ -34,7 +34,7 @@ export function ShowResponse({ data }: IProps) {
             </h1>
           </CardContent>
         </Card>
-        <Card className="h-fit pt-5">
+        <Card className="h-fit pt-5 px-3">
           <CardTitle className="text-center text-xl min-[1090px]:text-2xl">Valor Total de Juros:</CardTitle>
           <CardContent className="flex justify-center items-center">
             <h1 className="text-xl min-[1090px]:text-3xl mt-3 text-[#48e383]">
