@@ -1,12 +1,15 @@
 "use client"
 import FinancialGoalCalculator from "@/components/shared/Calculators/FinancialGoal/FinancialGoalForm";
+import FinancialGoalTable from "@/components/shared/Calculators/FinancialGoal/FinancialGoalTable";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { FinancialGoalResponse } from "@/types/calculators";
 import { useState } from "react";
 
 
 export default function FinancialGoalPage() {
 
-  const [calculatorResponse, setCalculatorResponse] = useState<null>(null)
+  const [calculatorResponse, setCalculatorResponse] = useState<null | FinancialGoalResponse>(null)
+  const [loading, setLoading] = useState<boolean>(false)
 
   return (
 
@@ -18,7 +21,7 @@ export default function FinancialGoalPage() {
             <CardTitle className="text-primary">Calculadora de Objetivo Financeiro</CardTitle>
           </CardHeader>
           <CardContent>
-            <FinancialGoalCalculator/>
+            <FinancialGoalCalculator loading={loading} setLoading={setLoading} setCalculatorResponse={setCalculatorResponse} />
           </CardContent>
           {
             calculatorResponse === null ?
@@ -44,8 +47,10 @@ export default function FinancialGoalPage() {
                 <p>Essa ferramenta pode ser útil para pessoas que desejam planejar seus investimentos e entender melhor quanto tempo levará para alcançar metas financeiras específicas.</p>
               </CardFooter>
               :
-              <CardFooter className="flex flex-col">
-
+              <CardFooter>
+                <div className="max-h-[500px] max-w-full overflow-auto mx-auto rounded-md">
+                  <FinancialGoalTable goal={calculatorResponse.goal} values={calculatorResponse.values} />
+                </div>
               </CardFooter>
           }
         </Card>

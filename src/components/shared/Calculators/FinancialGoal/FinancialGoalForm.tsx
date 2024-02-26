@@ -2,7 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { calcularTaxaJurosMensal } from "@/lib/utils";
+import { postCalculatorFinancialGoal } from "@/services/Calculators";
+import { FinancialGoalResponse } from "@/types/calculators";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Dispatch, SetStateAction } from "react";
 import { CurrencyInput } from "react-currency-mask";
 import { useForm } from "react-hook-form";
 import z from "zod";
@@ -16,19 +19,32 @@ const formZodSchema = z.object({
 
 type TFormZodSchema = z.infer<typeof formZodSchema>
 
-export default function FinancialGoalCalculator() {
+interface IProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  loading: boolean;
+  setCalculatorResponse: Dispatch<SetStateAction<FinancialGoalResponse | null>>;
+}
+
+export default function FinancialGoalCalculator({ setLoading, loading, setCalculatorResponse }: IProps) {
 
   const form = useForm<TFormZodSchema>({
     resolver: zodResolver(formZodSchema)
   })
 
-  function onSubmit(data: TFormZodSchema) {
-    console.log(data)
+  async function onSubmit(data: TFormZodSchema) {
+    setLoading(true)
+    const { amount, goal, taxMonth } = data
+    const newData = { amount, goal, tax: taxMonth }
+    const response = await postCalculatorFinancialGoal(newData)
+    setCalculatorResponse(response)
+
+    setLoading(false)
   }
 
-  function resetForm(){
+  function resetForm() {
 
-    form.reset({taxMonth:0})
+    form.reset({ taxMonth: 0 })
+    setCalculatorResponse(null)
   }
 
   return (
@@ -45,7 +61,7 @@ export default function FinancialGoalCalculator() {
                     <FormLabel>Valor Inicial:</FormLabel>
                     <FormControl>
                       <CurrencyInput
-                        InputElement={<Input type="text" placeholder="R$1.000,00" />}
+                        InputElement={<Input disabled={loading} type="text" placeholder="R$1.000,00" />}
                         {...field}
                         onChangeValue={(e, orig, mask) => field.onChange(Number(orig))} />
                     </FormControl>
@@ -61,7 +77,7 @@ export default function FinancialGoalCalculator() {
                     <FormLabel>Valor Desejado:</FormLabel>
                     <FormControl>
                       <CurrencyInput
-                        InputElement={<Input type="text" placeholder="R$10.000,00" />}
+                        InputElement={<Input disabled={loading} type="text" placeholder="R$10.000,00" />}
                         {...field}
                         onChangeValue={(e, orig, mask) => field.onChange(Number(orig))} />
                     </FormControl>
@@ -82,7 +98,7 @@ export default function FinancialGoalCalculator() {
                         <span className="text-lg bg-secondary min-w-8 py-1 flex justify-center items-center rounded-md">%</span>
                         <CurrencyInput
                           hideSymbol
-                          InputElement={<Input type="text" placeholder="15" />}
+                          InputElement={<Input disabled={loading} type="text" placeholder="15" />}
                           {...field}
                           onChangeValue={(e, orig, mask) => {
                             field.onChange(Number(orig))
@@ -105,6 +121,7 @@ export default function FinancialGoalCalculator() {
                       <div className="flex items-center gap-1">
                         <span className="text-lg bg-secondary min-w-8 py-1 flex justify-center items-center rounded-md">%</span>
                         <Input
+                          disabled={loading}
                           placeholder="1"
                           readOnly
                           className="outline-none"
@@ -120,13 +137,14 @@ export default function FinancialGoalCalculator() {
             </div>
           </div>
           <div className="w-full flex flex-col min-[600px]:flex-row justify-end gap-5 min-[600px]:gap-10 mt-[90px]">
-          <Button  className="w-full min-[600px]:w-36" type="submit">CALCULAR</Button>
-          <Button
-            type="reset"
-            className="w-full min-[600px]:w-36"
-            onClick={resetForm}
-            variant="secondary">LIMPAR</Button>
-        </div>
+            <Button disabled={loading} className="w-full min-[600px]:w-36" type="submit">CALCULAR</Button>
+            <Button
+              disabled={loading}
+              type="reset"
+              className="w-full min-[600px]:w-36"
+              onClick={resetForm}
+              variant="secondary">LIMPAR</Button>
+          </div>
         </form>
       </Form >
     </>

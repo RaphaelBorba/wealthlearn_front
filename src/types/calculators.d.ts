@@ -8,18 +8,29 @@ export type SimpleTaxCalculator = {
 }
 
 export type CompostTaxCalculator = SimpleTaxCalculator & {
-    monthValue:number
+    monthValue: number
 }
 
 export type CalculatorResponse = {
     timeType: 'year' | 'month';
-    timeTaxs: 
-        {
-            tax: number;
-            time: number;
-            investedMoney: number;
-            totalTax: number;
-            totalAmount:number;
-        }[]
-    
+    timeTaxs:
+    {
+        tax: number;
+        time: number;
+        investedMoney: number;
+        totalTax: number;
+        totalAmount: number;
+    }[]
+
+}
+
+export type FinancialGoalRequest = {
+    amount:number;
+    tax:number;
+    goal:number
+}
+
+export type FinancialGoalResponse = {
+    goal: number,
+    values: number[][]
 }
