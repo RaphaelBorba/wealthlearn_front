@@ -48,7 +48,7 @@ export default function FinancialGoalPage() {
               </CardFooter>
               :
               <CardFooter>
-                <div className="max-h-[500px] max-w-full overflow-auto mx-auto rounded-md">
+                <div className="max-h-[500px] w-full overflow-auto mx-auto rounded-md">
                   <FinancialGoalTable goal={calculatorResponse.goal} values={calculatorResponse.values} />
                 </div>
               </CardFooter>
