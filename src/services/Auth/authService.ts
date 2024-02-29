@@ -1,5 +1,5 @@
 import { SignUpForm } from "@/types/signUpForm";
-import api from "../api";
+import backendApi from "../backendApi";
 import { SignInForm } from "@/types/signInForm";
 import { validateJWTToken } from "../JWT/JWTFunctions";
 import { userStore } from "@/stores/userStore";
@@ -9,14 +9,14 @@ const setUserData = userStore.getState().setUserData
 
 export async function createNewUser(body: SignUpForm) {
 
-    const response = await api.post("/auth/register", { ...body, user_access_id: 2 })
+    const response = await backendApi.post("/auth/register", { ...body, user_access_id: 2 })
     return response
 }
 
 export async function login(body: SignInForm) {
 
     try {
-        const response = await api.post<string>("/auth/login", body)
+        const response = await backendApi.post<string>("/auth/login", body)
         const token = response.data
         const { access, id, name } = await validateJWTToken(token)
         setUserData({ access, id, name, token })

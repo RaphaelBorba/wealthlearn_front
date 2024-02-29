@@ -1,4 +1,4 @@
-import api from "../api";
+import backendApi from "../backendApi";
 
 export type UserResponseAPI = {
     id:number,
@@ -12,5 +12,5 @@ export type UserResponseAPI = {
 
 export function getUserData(token:string, id:number){
 
-    return api.get<UserResponseAPI>(`/user/findUserForProfilePage/${id}`, {headers:{Authorization:`Bearer ${token}`}})
+    return backendApi.get<UserResponseAPI>(`/user/findUserForProfilePage/${id}`, {headers:{Authorization:`Bearer ${token}`}})
 }

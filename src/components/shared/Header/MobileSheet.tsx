@@ -34,15 +34,17 @@ export default function MobileSheet({ userData }: IMobileSheet) {
         <SheetContent>
           <SheetHeader>
             <SheetTitle>
-              <Link href="/">
-                <Image
-                  className="mx-auto"
-                  alt="Logo"
-                  src="/logo-blue.svg"
-                  width={200}
-                  height={100}
-                />
-              </Link>
+              <SheetClose asChild>
+                <Link href="/">
+                  <Image
+                    className="mx-auto"
+                    alt="Logo"
+                    src="/logo-blue.svg"
+                    width={200}
+                    height={100}
+                  />
+                </Link>
+              </SheetClose>
             </SheetTitle>
           </SheetHeader>
           <nav className="pt-5 relative h-full">
