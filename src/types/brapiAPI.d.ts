@@ -16,3 +16,8 @@ type BrapiResponsePrincipalPage = {
     indexes: { stock: string, name: string }[];
     stocks: Stock[]
 }
+
+type availableStocks = {
+    indexes:string[];
+    stocks:string[];
+}

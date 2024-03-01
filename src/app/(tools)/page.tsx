@@ -3,8 +3,6 @@ import { Marcellus } from "next/font/google";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import brapiApi from "@/services/brapiApi";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
 
 
 const marcellus = Marcellus({
@@ -30,7 +28,7 @@ export default async function MainPage() {
         <Card>
           <CardHeader className="text-center md:text-start">
             <CardTitle>
-              <Link href={"/"}>
+              <Link href={"/bolsa-de-valores"} className="hover:underline">
                 Ações da Bolsa de Valores
               </Link>
             </CardTitle>

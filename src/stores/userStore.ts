@@ -12,7 +12,7 @@ export type userData = {
     access: number,
 }
 
-export const userStore = create<UserStore>()((set) => ({
+export const userStore = create<UserStore>((set) => ({
     userData: {
         access: 0,
         id: 0,
