@@ -16,7 +16,7 @@ export default function ShowStocks({ data }: IProps) {
   function filterStocks() {
 
     if (search.length < 3) {
-      return data.stocks.slice(0, 30).map((stock, index) => (
+      return data.stocks.slice(0, 24).map((stock, index) => (
         <StockComponent key={stock.stock} stock={stock} />
       ))
     }

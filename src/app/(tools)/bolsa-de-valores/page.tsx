@@ -1,6 +1,4 @@
-
 import ShowStocks from "@/components/shared/MarketStock/showStocks";
-import { Input } from "@/components/ui/input";
 import brapiApi from "@/services/brapiApi";
 
 
@@ -9,7 +7,7 @@ export default async function StocksPage() {
   let brapiStocks
   try {
 
-    brapiStocks = await brapiApi.get<BrapiResponsePrincipalPage>("/api/quote/list", { params: { type: "stock" } })
+    brapiStocks = await brapiApi.get<BrapiResponsePrincipalPage>("/api/quote/list")
   } catch (error) {
     console.log(error)
   }

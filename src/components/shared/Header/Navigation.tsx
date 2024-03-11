@@ -9,7 +9,7 @@ import { ListItem } from "./ListItem";
 
 const StartComponents: { title: string; href: string; description: string }[] = [
     {
-        href:"/acao",
+        href:"/bolsa-de-valores",
         title:"Ações da Bolsa de Valores",
         description:"Informações das ações da bolsa de valores brasileira!"
     }

@@ -53,18 +53,37 @@ export default function MobileSheet({ userData }: IMobileSheet) {
             <Accordion type="multiple">
               <AccordionItem value="item-1">
                 <AccordionTrigger>Começo!</AccordionTrigger>
-                <AccordionContent>
+                <AccordionContent className="flex flex-col">
                   <SheetClose asChild>
                     <Link href="/" >
                       <Button variant="link">Pagina Inicial</Button>
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link href="/bolsa-de-valores" >
+                      <Button variant="link">Bolsa de Valores</Button>
                     </Link>
                   </SheetClose>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">
                 <AccordionTrigger>Calculadoras</AccordionTrigger>
-                <AccordionContent>
-
+                <AccordionContent className="flex flex-col">
+                  <SheetClose asChild>
+                    <Link href="/calculadora/juros-simples" >
+                      <Button variant="link">Juros Simples</Button>
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link href="/calculadora/juros-compostos" >
+                      <Button variant="link">Juros Compostos</Button>
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link href="/calculadora/objetivo-financeiro" >
+                      <Button variant="link">Objetivo Financeiro</Button>
+                    </Link>
+                  </SheetClose>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
