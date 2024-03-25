@@ -38,7 +38,7 @@ export default async function MainPage() {
               <div key={stock.name}>
                 <Link
                   className="flex flex-col justify-center items-center gap-2 hover:scale-105 transition w-fit mx-auto"
-                  href={"/"}>
+                  href={`/bolsa-de-valores/${stock.stock}`}>
                   <Image
                     className="rounded-md"
                     alt="Logo Stock"

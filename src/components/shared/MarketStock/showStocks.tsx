@@ -1,8 +1,10 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
 import Image from "next/image"
+import Link from "next/link"
 import { ChangeEvent, useState } from "react"
 
 interface IProps {
@@ -40,17 +42,7 @@ export default function ShowStocks({ data }: IProps) {
         placeholder="PETR4"
       />
       <div className="grid grid-cols-1 min-[600px]:grid-cols-2 md:grid-cols-3 gap-3 ">
-        {
-          /* search.length < 3 ?
-            data.stocks.filter((stock, index) => index < 30).map((stock, index) => (
-              <StockComponent key={stock.stock} stock={stock} />
-            ))
-            :
-            data.stocks.filter((stock) => stock.stock.includes(search.toUpperCase())).map((stock) => (
-              <StockComponent key={stock.stock} stock={stock} />
-            )) */
-          filterStocks()
-        }
+        {filterStocks()}
       </div>
 
     </>
@@ -62,7 +54,7 @@ interface StockProps {
 }
 
 const StockComponent = ({ stock }: StockProps) => (
-  <Button variant={"ghost"} className="h-full text-start justify-start">
+  <Link href={`/bolsa-de-valores/${stock.stock}`} className={cn(buttonVariants({variant:"ghost"}),"h-full text-start justify-start")}>
     <div className="flex flex-row gap-3">
       <Image
         className="rounded-md object-cover"
@@ -76,5 +68,5 @@ const StockComponent = ({ stock }: StockProps) => (
         <span className="text-primary italic font-thin">{stock.stock}</span>
       </div>
     </div>
-  </Button>
+  </Link>
 )
