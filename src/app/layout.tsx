@@ -3,6 +3,7 @@ import { Ubuntu } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import Footer from "@/components/shared/Footer";
 
 const ubuntu = Ubuntu({
   weight: ["300", "400", "500", "700"],
@@ -21,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={ubuntu.className}
+      <body className={`flex flex-col min-h-screen ${ubuntu.className}`}
       >
         <ThemeProvider
           attribute="class"
@@ -31,7 +32,9 @@ export default function RootLayout({
         >
           {children}
           <Toaster />
+          
         </ThemeProvider>
+        <Footer/>
       </body>
     </html>
   );

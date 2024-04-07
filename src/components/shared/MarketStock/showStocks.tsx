@@ -28,7 +28,7 @@ export default function ShowStocks({ data }: IProps) {
         <StockComponent key={stock.stock} stock={stock} />
       ))
     } else {
-      return <h1 className="text-primary min-[600px]:text-center size-full text-2xl opacity-70">Nenhuma ação com esse código</h1>
+      return <h1 className="text-primary min-[600px]:text-center size-full text-2xl opacity-70">Nenhuma ação com esse código!</h1>
     }
   }
 
