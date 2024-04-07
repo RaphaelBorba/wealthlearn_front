@@ -29,7 +29,20 @@ export default async function StockPage({ params }: IProps) {
 
   const { results, requestedAt } = response.data
   const stockData = results[0]
-  
+
+  function returnBRDate() {
+
+    let dataISO = stockData.regularMarketTime
+
+    let data = new Date(dataISO);
+
+    let dia = data.getDate();
+    let mes = data.getMonth() + 1; // Lembrando que os meses começam em 0, então somamos 1
+    let ano = data.getFullYear();
+
+    return `${dia}/${mes}/${ano}`;
+  }
+
 
   return (
     <main className="wrapper my-12">
@@ -46,16 +59,20 @@ export default async function StockPage({ params }: IProps) {
         <div className="size-full flex justify-center min-[600px]:justify-end  ">
           <div className="flex flex-col items-start gap-3 justify-center max-[600px]:w-full">
 
-            <h1
+            <span
               className={cn(buttonVariants({ variant: "secondary" }), 'w-full')}>
               <Building2 className="mr-2" />
               Setor: {stockData.summaryProfile?.sector}
-            </h1>
-            <h1
-              className={cn(buttonVariants({ variant: "secondary" }), 'w-full')}>
-              <Phone className="mr-2" />
-              Contato: {stockData.summaryProfile?.phone}
-            </h1>
+            </span>
+            {
+              stockData.summaryProfile?.phone && (
+                <span
+                  className={cn(buttonVariants({ variant: "secondary" }), 'w-full')}>
+                  <Phone className="mr-2" />
+                  Contato: {stockData.summaryProfile?.phone}
+                </span>
+              )
+            }
             {
               stockData.summaryProfile?.website !== undefined && (
                 <Link
@@ -70,21 +87,53 @@ export default async function StockPage({ params }: IProps) {
           </div>
         </div>
       </div>
-      <div className="mt-8">
-        <h1 className="text-2xl">Informações do ativo:</h1>
-        <Table>
+      <div className="mt-8 max-[220px]:overflow-scroll">
+        <h1 className="text-2xl underline">Informações do ativo:</h1>
+        <Table className="">
           <TableBody>
             <TableRow>
-              <TableCell>Preço atual da Ação:</TableCell>
-              <TableCell>{results[0].regularMarketPrice}</TableCell>
+              <TableCell>Moeda Negociada:</TableCell>
+              <TableCell className="text-end">{stockData.currency}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>Moeda Negociada:</TableCell>
-              <TableCell>{results[0].currency}</TableCell>
+              <TableCell>Data e Hora da Última Negociação:</TableCell>
+              <TableCell className="text-end">{returnBRDate()}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Preço atual da Ação:</TableCell>
+              <TableCell className="text-end">{stockData.regularMarketPrice}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Preço Máximo do dia da Ação:</TableCell>
+              <TableCell className="text-end">{stockData.regularMarketDayHigh}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Preço Mínimo do dia da Ação:</TableCell>
+              <TableCell className="text-end">{stockData.regularMarketDayLow}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Volume Negociado Hoje:</TableCell>
+              <TableCell className="text-end">{stockData.regularMarketVolume}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Preço Máximo das Últimas 52 Semanas:</TableCell>
+              <TableCell className="text-end">{stockData.fiftyTwoWeekHigh}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Preço Mínimo das Últimas 52 Semanas:</TableCell>
+              <TableCell className="text-end">{stockData.fiftyTwoWeekLow}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
       </div>
+
+      {stockData.summaryProfile?.longBusinessSummary && (
+        <div className="flex flex-col gap-5 mt-8">
+          <h1 className="text-2xl underline">História da Empresa:</h1>
+          <span>{stockData.summaryProfile?.longBusinessSummary}</span>
+        </div>
+      )}
+
     </main>
   )
 }

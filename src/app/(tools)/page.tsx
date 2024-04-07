@@ -18,7 +18,7 @@ export default async function MainPage() {
     <main className="wrapper  my-24">
       <div className=" flex flex-col gap-5 size-full justify-center items-center mb-14">
         <h1
-          className={`text-4xl min-[430px]:text-6xl min-[530px]:text-7xl font-bold text-primary ${marcellus.className}`}>
+          className={`text-2xl min-[260px]:text-4xl min-[430px]:text-6xl min-[530px]:text-7xl font-bold text-primary break-all ${marcellus.className}`}>
           WEALTHLEARN
         </h1>
         <span className="font-bold text-center">Consulte informações de seus ativos e utilize nossas ferramentas!</span>

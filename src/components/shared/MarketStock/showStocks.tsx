@@ -64,7 +64,7 @@ const StockComponent = ({ stock }: StockProps) => (
         height={50}
       />
       <div>
-        <h1>{stock.name}</h1>
+        <h1 className="break-all">{stock.name}</h1>
         <span className="text-primary italic font-thin">{stock.stock}</span>
       </div>
     </div>
